@@ -1,10 +1,8 @@
-use serde_json::{json, Value};
-use std::{process::Command, path::Path};
+use serde_json::{Value, json};
+use std::{path::Path, process::Command};
 
 pub fn collect_nvidia_json(complex: bool) -> Value {
-    if !Path::new("/usr/bin/nvidia-smi").exists()
-        && which::which("nvidia-smi").is_err()
-    {
+    if !Path::new("/usr/bin/nvidia-smi").exists() && which::which("nvidia-smi").is_err() {
         return json!([]);
     }
 
@@ -26,7 +24,9 @@ fn collect_nvidia_simple() -> Value {
         ])
         .output();
 
-    let Ok(o) = out else { return json!([]); };
+    let Ok(o) = out else {
+        return json!([]);
+    };
     if o.stdout.is_empty() {
         return json!([]);
     }

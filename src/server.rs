@@ -15,12 +15,9 @@ pub fn run_server(metrics: Arc<Mutex<String>>) {
             let response = Response::from_string(body)
                 .with_header(Header::from_bytes(b"Content-Type", b"application/json").unwrap());
             let _ = req.respond(response);
-
         } else {
-            let _ = req.respond(
-                Response::from_string("{\"error\":\"not_found\"}")
-                    .with_status_code(404),
-            );
+            let _ = req
+                .respond(Response::from_string("{\"error\":\"not_found\"}").with_status_code(404));
         }
     }
 }

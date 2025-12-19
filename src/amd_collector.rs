@@ -38,8 +38,7 @@ fn collect_amd_simple() -> Value {
                             .and_then(|v| v.as_str())
                             .unwrap_or("0 / 0");
 
-                        let parts: Vec<&str> =
-                            mem.split('/').map(|x| x.trim()).collect();
+                        let parts: Vec<&str> = mem.split('/').map(|x| x.trim()).collect();
                         let used = parts[0].parse::<u32>().unwrap_or(0);
                         let total = parts[1].parse::<u32>().unwrap_or(0);
 
