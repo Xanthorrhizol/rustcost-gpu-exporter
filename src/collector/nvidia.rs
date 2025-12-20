@@ -109,8 +109,8 @@ fn collect_nvidia_simple() -> Value {
                 "index": card.index,
                 "name": card.name(),
                 "gpu_utilization_percent": card.gpu_utilization_percent(),
-                "gpu_memory_used_mb": card.gpu_memory_used_mib(),
-                "gpu_memory_total_mb": card.gpu_memory_total_mib(),
+                "gpu_memory_used_mb": card.gpu_memory_used_mb(),
+                "gpu_memory_total_mb": card.gpu_memory_total_mb(),
                 "up": card.up(),
             }));
         }
@@ -157,8 +157,8 @@ pcie.link.gen.current,pcie.link.width.current",
                     "index": card.index,
                     "name": card.name(),
                     "gpu_utilization_percent": card.gpu_utilization_percent(),
-                    "gpu_memory_used_mb": card.gpu_memory_used_mib(),
-                    "gpu_memory_total_mb": card.gpu_memory_total_mib(),
+                    "gpu_memory_used_mb": card.gpu_memory_used_mb(),
+                    "gpu_memory_total_mb": card.gpu_memory_total_mb(),
                     "power_watts": card.power_watts(),
                     "temperature_celsius": card.temperature_celsius(),
                     "clock_sm_mhz": card.clock_sm_mhz(),
@@ -190,7 +190,7 @@ pcie.link.gen.current,pcie.link.width.current",
                     "gpu_uuid": parts[0],
                     "pid": parts[1].parse::<u32>().unwrap_or(0),
                     "process_name": parts[2],
-                    "used_gpu_memory_mb": parts[3].parse::<u32>().unwrap_or(0)
+                    "used_gpu_memory_mb": (parts[3].parse::<u64>().unwrap_or(0_u64) * 1024_u64.pow(2) / 1000_u64.pow(2)) as u32
                 }));
             }
         }
