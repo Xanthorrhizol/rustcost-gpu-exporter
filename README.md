@@ -68,12 +68,12 @@ Run manually on any Linux system:
 
 ```bash
 docker run -d \
-  --gpus all 
+  --gpus all \
   -p 8000:8000 \
   -e GPU_EXPORTER_COMPLEX=0 \
   -e PORT=8000 \
   -e COLLECT_INTERVAL_SEC=60 \
-  kimc1992/rustcost-gpu-exporter:0.0.1
+  rustcost/gpu-exporter:0.0.2
 ```
 
 Metrics now available at:

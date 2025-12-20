@@ -1,15 +1,14 @@
-mod amd_collector;
-mod nvidia_collector;
+mod collector;
 mod server;
 
+use collector::GpuCollector;
+use serde_json::json;
 use std::{
     fs,
     sync::{Arc, Mutex},
     thread,
     time::Duration,
 };
-
-use serde_json::json;
 
 fn main() {
     dotenvy::dotenv().ok(); // load .env automatically
@@ -28,8 +27,8 @@ fn main() {
 
     thread::spawn(move || {
         loop {
-            let nvidia = nvidia_collector::collect_nvidia_json(complex_mode);
-            let amd = amd_collector::collect_amd_json(complex_mode);
+            let nvidia = collector::Nvidia.collect(complex_mode);
+            let amd = collector::Amd.collect(complex_mode);
 
             let combined = json!({
                 "nvidia": nvidia,
