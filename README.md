@@ -73,7 +73,7 @@ docker run -d \
   -e GPU_EXPORTER_COMPLEX=0 \
   -e PORT=8000 \
   -e COLLECT_INTERVAL_SEC=60 \
-  rustcost/gpu-exporter:0.0.1
+  rustcost/gpu-exporter:0.0.2
 ```
 
 Metrics now available at:
