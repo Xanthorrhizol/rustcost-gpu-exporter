@@ -1,6 +1,9 @@
+use super::{GpuCollector, Smi};
 use serde_json::{Value, json};
 use std::collections::HashMap;
 use std::process::Command;
+
+pub struct Amd;
 
 #[derive(Debug, serde::Deserialize)]
 struct Card {
@@ -16,7 +19,7 @@ struct Card {
     sku: String,
 }
 
-impl Card {
+impl Smi for Card {
     fn name(&self) -> String {
         format!("{} {}", self.series, self.sku)
     }
@@ -39,11 +42,15 @@ impl Card {
     }
 }
 
-pub fn collect_amd_json(_complex: bool) -> Value {
-    // ROCm does not support advanced metrics consistently.
-    collect_amd_simple()
+impl GpuCollector for Amd {
+    fn collect(&self, complex_mode: bool) -> Value {
+        if complex_mode {
+            unimplemented!();
+        } else {
+            collect_amd_simple()
+        }
+    }
 }
-
 fn collect_amd_simple() -> Value {
     let out = Command::new("/opt/rocm/bin/rocm-smi")
         .args([
@@ -73,7 +80,7 @@ fn collect_amd_simple() -> Value {
                     "gpu_utilization_percent": card.gpu_utilization_percent(),
                     "gpu_memory_used_mb": card.gpu_memory_used_mb(),
                     "gpu_memory_total_mb": card.gpu_memory_total_mb(),
-                    "up": true
+                    "up": card.up(),
                 }));
             }
         }
